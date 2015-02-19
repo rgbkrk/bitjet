@@ -8,9 +8,11 @@ define(function(require) {
            this.$frame = $('<canvas/>')
                .css({
                    overflow: 'hidden',
-                   width:  650,
-                   height: 650,
-                   border: '1px solid grey'
+                   width:  800,
+                   height: 800,
+                   border: '1px solid lightgray',
+                   "-webkit-box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)",
+                   "box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)"
                }).appendTo(this.$el);
 
 
