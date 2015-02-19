@@ -21,15 +21,31 @@ define(function(require) {
 
        _redraw: function() {
           // Grab the canvas context
-          var context = this.$frame[0].getContext("2d");
+          var canvas = this.$frame[0];
+          var context = canvas.getContext("2d");
+
+          context.clearRect ( 0 , 0 , canvas.width, canvas.height );
 
           var data = this.model.get("data");
           // data will come in as a list traitlet
           var bitwidth = this.model.get("bitwidth");
 
+          var width = 5;
+          var height = width;
 
 
-          context.fillRect(0,10,5,5); 
+          var that = this;
+          data.forEach(function(el, idx) {
+            if(el) {
+
+              var x = (idx % bitwidth)*width;
+              var y = (Math.floor(idx/bitwidth))*height;
+
+              context.fillRect(x,y,width,height);
+
+            }
+          });
+
        },
    });
 

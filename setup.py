@@ -24,7 +24,7 @@ class InstallCommand(install):
         install_nbextension(bitjet, destination='bitjet', symlink=self.develop, user=True)
 
     def run(self):
-        print "Installing Python module..."
+        print("Installing Python module...")
         install.run(self)
 
         # Install Notebook extension
