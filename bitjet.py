@@ -2,7 +2,7 @@ from IPython.html.widgets import DOMWidget
 from IPython.utils.traitlets import Int, Unicode, List
 
 class BitWidget(DOMWidget):
-    _view_module = Unicode('nbextensions/bitdget', sync=True)
+    _view_module = Unicode('nbextensions/bitjet', sync=True)
     _view_name = Unicode('BitView', sync=True)
 
 
