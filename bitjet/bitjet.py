@@ -8,3 +8,5 @@ class BitWidget(DOMWidget):
 
     bitwidth = Int(2, sync=True)
     data = List([True, False, True, False], sync=True)
+    blockwidth = Int(4, sync=True)
+    blockheight = Int(4, sync=True)

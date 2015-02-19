@@ -8,14 +8,16 @@ define(function(require) {
            this.$frame = $('<canvas/>')
                .css({
                    overflow: 'hidden',
-                   width:  420,
-                   height: 420,
-                   border: '2px solid grey'
+                   width:  650,
+                   height: 650,
+                   border: '1px solid grey'
                }).appendTo(this.$el);
 
 
            this.model.on('change:data', this._redraw, this);
            this.model.on('change:bitwidth', this._redraw, this);
+           this.model.on('change:blockwidth', this._redraw, this);
+           this.model.on('change:blockheight', this._redraw, this);
            this._redraw();
        },
 
@@ -30,9 +32,8 @@ define(function(require) {
           // data will come in as a list traitlet
           var bitwidth = this.model.get("bitwidth");
 
-          var width = 5;
-          var height = width;
-
+          var width = this.model.get("blockwidth");
+          var height = this.model.get("blockheight");
 
           var that = this;
           data.forEach(function(el, idx) {
