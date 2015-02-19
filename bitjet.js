@@ -27,6 +27,8 @@ define(function(require) {
           // data will come in as a list traitlet
           var bitwidth = this.model.get("bitwidth");
 
+
+
           context.fillRect(0,10,5,5); 
        },
    });
