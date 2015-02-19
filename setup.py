@@ -44,6 +44,7 @@ setup(
     license='New BSD License',
     url='https://github.com/rgbkrk/bitjet',
     keywords='data visualization interactive interaction python ipython widgets widget',
+    install_requires=['ipython'],
     classifiers=['Development Status :: 4 - Beta',
                  'Programming Language :: Python',
                  'License :: OSI Approved :: MIT License'],
