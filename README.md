@@ -1,8 +1,8 @@
 # Bitjet
 
-:rocket:
+Binary visualization using IPython widgets. This is a Jupyter/IPython notebook extension and in its current state just an experiment.
 
-Binary visualization using IPython widgets.
+Canvas + IPython widgets are so slick.
 
 ![bitjet](https://cloud.githubusercontent.com/assets/836375/6262945/31bfd5c8-b7c3-11e4-9f87-55a80f28ca6c.gif)
 
