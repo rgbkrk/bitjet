@@ -28,7 +28,7 @@ define(function(require) {
           var canvas = this.$frame[0];
           var context = canvas.getContext("2d");
 
-          context.clearRect ( 0 , 0 , canvas.width, canvas.height );
+          context.clearRect(0, 0, canvas.width, canvas.height );
 
           var data = this.model.get("data");
           // data will come in as a list traitlet
@@ -37,16 +37,18 @@ define(function(require) {
           var width = this.model.get("blockwidth");
           var height = this.model.get("blockheight");
 
-          var that = this;
           data.forEach(function(el, idx) {
-            if(el) {
-
-              var x = (idx % bitwidth)*width;
-              var y = (Math.floor(idx/bitwidth))*height;
-
-              context.fillRect(x,y,width,height);
+            // Within each byte, fill for each bit
+            for (i=0; i<8; i++){
+              bit = el >> i
+              var x = ((idx*8+i) % bitwidth)*width;
+              var y = (Math.floor((idx*8+i)/bitwidth))*height;
+              if(bit) { //on
+                context.fillRect(x,y,width,height);
+              }
 
             }
+              
           });
 
        },
