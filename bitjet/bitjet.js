@@ -18,7 +18,7 @@ define(function(require) {
 
 
            this.model.on('change:data', this._redraw, this);
-           this.model.on('change:bitwidth', this._redraw, this);
+           this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
            this._redraw();
@@ -37,7 +37,7 @@ define(function(require) {
           var msg = this.model.get("data");
           var data = atob(msg['b64data']);
 
-          var bitwidth = this.model.get("bitwidth");
+          var bitwidth = this.model.get("datawidth");
 
           var width = this.model.get("blockwidth");
           var height = this.model.get("blockheight");
@@ -88,7 +88,7 @@ define(function(require) {
 
 
            this.model.on('change:data', this._redraw, this);
-           this.model.on('change:bytewidth', this._redraw, this);
+           this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
            this._redraw();
@@ -107,7 +107,7 @@ define(function(require) {
           var msg = this.model.get("data");
           var data = atob(msg['b64data']);
 
-          var bytewidth = this.model.get("bytewidth");
+          var bytewidth = this.model.get("datawidth");
 
           var width = this.model.get("blockwidth");
           var height = this.model.get("blockheight");

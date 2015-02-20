@@ -25,7 +25,7 @@ class BitWidget(DOMWidget):
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _view_name = Unicode('BitView', sync=True)
 
-    bitwidth = Int(2, sync=True)
+    datawidth = Int(2, sync=True)
 
     data = (
             Bytes(sync=True, to_json=b64encode_json) |
@@ -43,7 +43,7 @@ class ByteWidget(DOMWidget):
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _view_name = Unicode('ByteView', sync=True)
 
-    bytewidth = Int(2, sync=True)
+    datawidth = Int(2, sync=True)
 
     data = (
             Bytes(sync=True, to_json=b64encode_json) |
@@ -52,3 +52,4 @@ class ByteWidget(DOMWidget):
 
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)
+
