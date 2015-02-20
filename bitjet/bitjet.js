@@ -12,7 +12,8 @@ define(function(require) {
                    height: 800,
                    border: '1px solid lightgray',
                    "-webkit-box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)",
-                   "box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)"
+                   "box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)",
+                   background: "rgba(87,87,87,0.2)"
                }).appendTo(this.$el);
 
 
@@ -28,28 +29,44 @@ define(function(require) {
           var canvas = this.$frame[0];
           var context = canvas.getContext("2d");
 
+          // Color the background gray
+          context.fillStyle = "rgb(87,87,87,0.2)";
           context.clearRect(0, 0, canvas.width, canvas.height );
 
-          var data = this.model.get("data");
-          // data will come in as a list traitlet
+          // We expect JSON with base64 encoded data in the b64data field
+          var msg = this.model.get("data");
+          var data = atob(msg['b64data']);
+
           var bitwidth = this.model.get("bitwidth");
 
           var width = this.model.get("blockwidth");
           var height = this.model.get("blockheight");
 
-          data.forEach(function(el, idx) {
-            // Within each byte, fill for each bit
-            for (i=0; i<8; i++){
-              bit = el >> i
-              var x = ((idx*8+i) % bitwidth)*width;
-              var y = (Math.floor((idx*8+i)/bitwidth))*height;
+          // Paint the canvas with our bit view
+          for(var idx=0; idx < data.length; idx++) {
+            // The decoded data is a string in JavaScript land, we'll strip uint8s off
+            var el = data.charCodeAt(idx);
+            var charsize = 8; 
+
+            for (i=0; i<charsize; i++){
+              //Mask off that first bit
+              var bit = (el >> i) & 0x1;
+              
+              // Where does this bit fit in it?
+              var x = ((idx*charsize+i) % bitwidth)*width;
+              var y = (Math.floor((idx*charsize+i)/bitwidth))*height;
+
               if(bit) { //on
+                context.fillStyle = "rgb(255,255,255)";
+                context.fillRect(x,y,width,height);
+              } else {
+                context.fillStyle = "rgb(0,0,0)";
                 context.fillRect(x,y,width,height);
               }
 
             }
               
-          });
+          }
 
        },
    });
