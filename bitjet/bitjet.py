@@ -19,13 +19,31 @@ def b64encode_json(a):
 
 class BitWidget(DOMWidget):
     '''
-    BitWidget provides a way to visualize a binary data stream, so long as they
+    BitWidget provides a way to visualize a binary data stream by bits, so long as they
     come in as a bytes array or a numpy array.
     '''
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _view_name = Unicode('BitView', sync=True)
 
     bitwidth = Int(2, sync=True)
+
+    data = (
+            Bytes(sync=True, to_json=b64encode_json) |
+            Instance(ndarray, sync=True, to_json=b64encode_json)
+    )
+
+    blockwidth = Int(4, sync=True)
+    blockheight = Int(4, sync=True)
+
+class ByteWidget(DOMWidget):
+    '''
+    ByteWidget provides a way to visualize a binary data stream by bytes, so long as they
+    come in as a bytes array or a numpy array.
+    '''
+    _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
+    _view_name = Unicode('ByteView', sync=True)
+
+    bytewidth = Int(2, sync=True)
 
     data = (
             Bytes(sync=True, to_json=b64encode_json) |
