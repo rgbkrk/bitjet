@@ -8,13 +8,20 @@ import base64
 try:
     from numpy import ndarray
 except:
+    # TODO: wat
     ndarray = None
 
-
 def b64encode_json(a):
+    '''
+    Returns a dict containing the base64 encoded a
+    '''
     return {'b64data': base64.b64encode(a)}
 
 class BitWidget(DOMWidget):
+    '''
+    BitWidget provides a way to visualize a binary data stream, so long as they
+    come in as a bytes array or a numpy array.
+    '''
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _view_name = Unicode('BitView', sync=True)
 
