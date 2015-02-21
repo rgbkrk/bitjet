@@ -17,14 +17,22 @@ define(function(require) {
                }).appendTo(this.$el);
 
 
-           this.model.on('change:data', this._redraw, this);
+           this.model.on('change:data', this._newdraw, this);
            this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
-           this._redraw();
+           this._newdraw();
+       },
+       _newdraw: function() {
+          // We expect JSON with base64 encoded data in the b64data field
+          var msg = this.model.get("data");
+          this.cached_data = atob(msg['b64data']);
+          this._redraw();
        },
 
        _redraw: function() {
+          var data = this.cached_data;
+          
           // Grab the canvas context
           var canvas = this.$frame[0];
           var context = canvas.getContext("2d");
@@ -32,10 +40,6 @@ define(function(require) {
           // Color the background gray
           context.fillStyle = "rgb(87,87,87,0.2)";
           context.clearRect(0, 0, canvas.width, canvas.height );
-
-          // We expect JSON with base64 encoded data in the b64data field
-          var msg = this.model.get("data");
-          var data = atob(msg['b64data']);
 
           var bitwidth = this.model.get("datawidth");
 
@@ -87,14 +91,23 @@ define(function(require) {
                }).appendTo(this.$el);
 
 
-           this.model.on('change:data', this._redraw, this);
+           this.model.on('change:data', this._newdraw, this);
            this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
-           this._redraw();
+           this._newdraw();
+       },
+
+       _newdraw: function() {
+          // We expect JSON with base64 encoded data in the b64data field
+          var msg = this.model.get("data");
+          this.cached_data = atob(msg['b64data']);
+          this._redraw();
        },
 
        _redraw: function() {
+          var data = this.cached_data;
+
           // Grab the canvas context
           var canvas = this.$frame[0];
           var context = canvas.getContext("2d");
@@ -102,10 +115,6 @@ define(function(require) {
           // Color the background gray
           context.fillStyle = "rgb(87,87,87,0.2)";
           context.clearRect(0, 0, canvas.width, canvas.height );
-
-          // We expect JSON with base64 encoded data in the b64data field
-          var msg = this.model.get("data");
-          var data = atob(msg['b64data']);
 
           var bytewidth = this.model.get("datawidth");
 
