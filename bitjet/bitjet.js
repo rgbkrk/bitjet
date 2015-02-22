@@ -50,7 +50,7 @@ define(function(require) {
 
             for (i=0; i<charsize; i++){
               //Mask off that first bit
-              var bit = (el >> i) & 0x1;
+              var bit = (el >> 7-i) & 0x1; // shit down from the leftmost bit
               
               // Where does this bit fit in it?
               var x = ((idx*charsize+i) % bitwidth)*width;
