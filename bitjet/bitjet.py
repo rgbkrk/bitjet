@@ -19,6 +19,8 @@ def b64encode_json(a):
 
 class BitJetWidget(DOMWidget):
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
+    _model_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
+    _model_name = Unicode('BinaryModel', sync=True)
 
     datawidth = Int(2, sync=True)
 
