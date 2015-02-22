@@ -1,7 +1,19 @@
 define(function(require) {
    var widget = require("widgets/js/widget");
 
-   var BitView = widget.DOMWidgetView.extend({
+   var BinaryModel = widget.WidgetModel.extend({
+     initialize: function() {
+       this.on('change:data', this._decode, this);
+     },
+
+     _decode: function() {
+       var msg = this.get("data");
+       console.log(msg);
+       this.set('_data', atob(msg['b64data']));
+     }
+   });
+
+   var BinaryView = widget.DOMWidgetView.extend({
        render: function() {
            
            // Create the viewing frame.
@@ -17,21 +29,17 @@ define(function(require) {
                }).appendTo(this.$el);
 
 
-           this.model.on('change:data', this._newdraw, this);
+           this.model.on('change:_data', this._redraw, this);
            this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
-           this._newdraw();
-       },
-       _newdraw: function() {
-          // We expect JSON with base64 encoded data in the b64data field
-          var msg = this.model.get("data");
-          this.cached_data = atob(msg['b64data']);
-          this._redraw();
-       },
+           this._redraw();
+       }
+   });
 
+   var BitView = BinaryView.extend({
        _redraw: function() {
-          var data = this.cached_data;
+          var data = this.model.get('_data');
           
           // Grab the canvas context
           var canvas = this.$frame[0];
@@ -75,38 +83,10 @@ define(function(require) {
        },
    });
 
-   var ByteView = widget.DOMWidgetView.extend({
-       render: function() {
-           
-           // Create the viewing frame.
-           this.$frame = $('<canvas/>')
-               .height(800)
-               .width(800)
-               .css({
-                   overflow: 'hidden',
-                   border: '1px solid lightgray',
-                   "-webkit-box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)",
-                   "box-shadow": "0 0 12px 1px rgba(87,87,87,0.2)",
-                   background: "rgba(87,87,87,0.2)"
-               }).appendTo(this.$el);
-
-
-           this.model.on('change:data', this._newdraw, this);
-           this.model.on('change:datawidth', this._redraw, this);
-           this.model.on('change:blockwidth', this._redraw, this);
-           this.model.on('change:blockheight', this._redraw, this);
-           this._newdraw();
-       },
-
-       _newdraw: function() {
-          // We expect JSON with base64 encoded data in the b64data field
-          var msg = this.model.get("data");
-          this.cached_data = atob(msg['b64data']);
-          this._redraw();
-       },
+   var ByteView = BinaryView.extend({
 
        _redraw: function() {
-          var data = this.cached_data;
+          var data = this.model.get('_data');
 
           // Grab the canvas context
           var canvas = this.$frame[0];
@@ -138,10 +118,10 @@ define(function(require) {
        },
    });
 
-
-
    return {
        BitView: BitView,
-       ByteView: ByteView
+       ByteView: ByteView,
+       BinaryView: BinaryView,
+       BinaryModel: BinaryModel
    };
 });
