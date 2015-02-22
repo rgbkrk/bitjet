@@ -8,7 +8,6 @@ define(function(require) {
 
      _decode: function() {
        var msg = this.get("data");
-       console.log(msg);
        this.set('_data', atob(msg['b64data']));
      }
    });
