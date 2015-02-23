@@ -4,7 +4,7 @@ Binary visualization using IPython widgets. This is a Jupyter/IPython notebook e
 
 Canvas + IPython widgets are so slick.
 
-![bitjet](https://cloud.githubusercontent.com/assets/836375/6284459/07c69e7c-b8a5-11e4-9fbd-98b1d2b55e3e.gif)
+![bitjet](https://cloud.githubusercontent.com/assets/836375/6321964/73865f54-bacf-11e4-89d0-9e4b7b79ceb7.gif)
 
 Currently, this has to be installed using setup.py.
 
