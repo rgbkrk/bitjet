@@ -27,6 +27,8 @@ define(function(require) {
                    background: "rgba(87,87,87,0.2)"
                }).appendTo(this.$el);
 
+           this.$frame[0].width = this.$frame.width()
+           this.$frame[0].height = this.$frame.height()
 
            this.model.on('change:_data', this._redraw, this);
            this.model.on('change:datawidth', this._redraw, this);
