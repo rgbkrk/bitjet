@@ -1,6 +1,6 @@
 # Bitjet
 
-Binary visualization using [IPython widgets](https://www.youtube.com/watch?v=VaV10VNZCLA). This is a Jupyter/IPython notebook extension and in its current state, :warning: just an experiment :warning:.
+Binary visualization using [IPython widgets](https://www.youtube.com/watch?v=VaV10VNZCLA). This is a Jupyter/IPython notebook extension.
 
 ![bitjet](https://cloud.githubusercontent.com/assets/836375/6321964/73865f54-bacf-11e4-89d0-9e4b7b79ceb7.gif)
 
