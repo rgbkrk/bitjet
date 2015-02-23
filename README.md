@@ -12,13 +12,18 @@ This use IPython 3, which at the time of this writing only has a release candida
 
 ```console
 pip install --pre ipython[all]
+```
+
+For bitjet, clone this repo and install it using the `setup.py`:
+
+```console
 python setup.py
 ```
+
+### Optional dependencies
 
 If you want to use all the examples, you'll need numpy.
 
 ```console
 pip install numpy # Here be dragons
 ```
-
-Should work in Python 2 and Python 3. This is an experiment.
