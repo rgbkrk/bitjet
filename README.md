@@ -6,17 +6,27 @@ Binary visualization using [IPython widgets](https://www.youtube.com/watch?v=VaV
 
 ## Installation
 
-This use IPython 3, which at the time of this writing only has a release candidate out. To install a new copy of IPython, upgrading over your old version run:
+This uses IPython 3, which only has a release candidate out. To install a new copy of IPython, upgrading over your old version run:
 
 ```console
 pip install --pre ipython[all]
 ```
 
-For bitjet, clone this repo and install it using the `setup.py`:
+For bitjet, clone this repo and install it with pip!
 
 ```console
-python setup.py
+pip install .
 ```
+
+### Development
+
+Hacking on this package is quite welcome. For the sake of your sanity, use pip's symlink option when installing:
+
+```console
+pip install -e .
+```
+
+Then to mitigate caching issues with the browser, either pick a new port to run the IPython notebook on or hard reset your cache each time.
 
 ### Optional dependencies
 
