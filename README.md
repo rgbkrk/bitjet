@@ -12,13 +12,21 @@ This uses IPython 3, which only has a release candidate out. To install a new co
 pip install --pre ipython[all]
 ```
 
-For bitjet, clone this repo and install it with pip!
+### Now install bitjet!
 
 ```console
-pip install .
+pip install bitjet
 ```
 
-### Development
+### Optional dependencies
+
+If you want to use all the examples, you'll need numpy.
+
+```console
+pip install numpy # Here be dragons
+```
+
+## Development
 
 Hacking on this package is quite welcome. For the sake of your sanity, use pip's symlink option when installing:
 
@@ -28,10 +36,3 @@ pip install -e .
 
 Then to mitigate caching issues with the browser, either pick a new port to run the IPython notebook on or hard reset your cache each time.
 
-### Optional dependencies
-
-If you want to use all the examples, you'll need numpy.
-
-```console
-pip install numpy # Here be dragons
-```
