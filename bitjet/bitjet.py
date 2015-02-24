@@ -24,10 +24,13 @@ class BitJetWidget(DOMWidget):
 
     datawidth = Int(2, sync=True)
 
-    data = (
-            Bytes(sync=True, to_json=b64encode_json) |
-            Instance(ndarray, sync=True, to_json=b64encode_json)
-    )
+    if ndarray:
+        data = (
+                Bytes(sync=True, to_json=b64encode_json) |
+                Instance(ndarray, sync=True, to_json=b64encode_json)
+        )
+    else:
+        data = Bytes(sync=True, to_json=b64encode_json) 
 
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)
