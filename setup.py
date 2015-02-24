@@ -10,29 +10,62 @@ except ImportError:
     from distutils.core import setup
     from distutils.core.command.install import install
 
-class InstallCommand(install):
-    """Install as noteboook extension"""
-    develop = False
+from IPython.html.nbextensions import install_nbextension
 
-    def install_extension(self):
-        from os.path import dirname, abspath, join
-        from IPython.html.nbextensions import install_nbextension
-        from IPython.html.services.config import ConfigManager
+def make_cmdclass(setupfile, path, enable=None):
+    """Build nbextension cmdclass dict for the setuptools.setup method.
 
-        print("Installing nbextension ...")
-        bitjet = join(dirname(abspath(__file__)), 'bitjet')
-        install_nbextension(bitjet, destination='bitjet', symlink=self.develop, user=True)
+    Parameters
+    ----------
+    setupfile: str
+        Path to the setup file.
+    path: str
+        Directory relative to the setup file that the nbextension code lives in.
+    enable: [str=None]
+        Extension to "enable".  Enabling an extension causes it to be loaded
+        automatically by the IPython notebook.
 
-    def run(self):
-        print("Installing Python module...")
-        install.run(self)
+    Usage
+    -----
+    setup(
+        name='flightwidgets',
+        ...
+        cmdclass=make_cmdclass(__file__, 'flightwidgets', 'flightwidgets/init'),
+    )
+    """
 
-        # Install Notebook extension
-        self.install_extension()
+    from setuptools.command.install import install
+    from setuptools.command.develop import develop
+    from os.path import dirname, abspath, join
 
-class DevelopCommand(InstallCommand):
-    """Install as noteboook extension"""
-    develop = True
+    from IPython.html.services.config import ConfigManager
+
+    def run_nbextension_install(develop):
+        install_nbextension(join(dirname(abspath(setupfile)), path), symlink=develop)
+        if enable is not None:
+            print("Enabling the extension ...")
+            cm = ConfigManager()
+            cm.update('notebook', {"load_extensions": {enable: True}})
+
+    class InstallCommand(install):
+        def run(self):
+            print("Installing Python module...")
+            install.run(self)
+            print("Installing nbextension ...")
+            run_nbextension_install(False)
+
+    class DevelopCommand(develop):
+        def run(self):
+            print("Installing Python module...")
+            develop.run(self)
+            print("Installing nbextension ...")
+            run_nbextension_install(True)
+    
+    return {
+        'install': InstallCommand,
+        'develop': DevelopCommand,
+    }
+
 
 from glob import glob 
 setup(
@@ -50,8 +83,5 @@ setup(
                  'License :: OSI Approved :: MIT License'],
     packages=['bitjet'],
     include_package_data=True,
-    cmdclass={
-        'install': InstallCommand,
-        'develop': DevelopCommand,
-    }
+    cmdclass=make_cmdclass(__file__, 'bitjet')
 )
