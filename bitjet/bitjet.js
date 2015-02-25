@@ -25,13 +25,14 @@ define(function(require) {
                    background: "rgba(87,87,87,0.2)"
                }).appendTo(this.$el);
 
-           this.$frame[0].width = this.$frame.width()
-           this.$frame[0].height = this.$frame.height()
-
            this.model.on('change:_data', this._redraw, this);
            this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
+           
+           this.model.on('change:width', this._redraw, this);
+           this.model.on('change:height', this._redraw, this);
+           
            this._redraw();
        }
    });
@@ -39,6 +40,18 @@ define(function(require) {
    var BitView = BinaryView.extend({
        _redraw: function() {
           var data = this.model.get('_data');
+          
+          // Set the width/height of the canvas and the canvas's drawing space
+          var width = this.model.get('width');
+          var height = this.model.get('height');
+            
+          // Width/height of the Canvas on the DOM
+          this.$frame.width(width);
+          this.$frame.height(height);
+           
+          // Width/height of the canvas area
+          this.$frame[0].width = width;
+          this.$frame[0].height = height;
           
           // Grab the canvas context
           var canvas = this.$frame[0];
