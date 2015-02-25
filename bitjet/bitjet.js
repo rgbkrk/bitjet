@@ -32,6 +32,7 @@ define(function(require) {
 
            this.model.on('change:_data', this._redraw, this);
            this.model.on('change:datawidth', this._redraw, this);
+           this.model.on('change:palette', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
            this._redraw();
@@ -101,6 +102,16 @@ define(function(require) {
 
           var width = this.model.get("blockwidth");
           var height = this.model.get("blockheight");
+           
+          // We'll assume a 256 long palette for now, quiet barf otherwise
+          var palette = this.model.get("palette");
+          console.log("Palette from model:");
+          console.log(palette);
+          window.patty = palette;
+          if (palette && palette.length != 256) {
+              palette = undefined;
+          }
+
 
           // Paint the canvas with our byte view
           for(var idx=0; idx < data.length; idx++) {

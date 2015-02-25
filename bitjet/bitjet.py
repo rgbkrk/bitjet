@@ -1,7 +1,7 @@
 import mmap
 
 from IPython.html.widgets import DOMWidget
-from IPython.utils.traitlets import Int, Unicode, List, Instance, Bytes
+from IPython.utils.traitlets import Int, Unicode, List, Instance, Bytes, Float, Tuple
 
 import base64
 
@@ -32,6 +32,8 @@ class BitJetWidget(DOMWidget):
     else:
         data = Bytes(sync=True, to_json=b64encode_json) 
 
+    palette = List(Tuple(Float, Float, Float))    
+        
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)
 
