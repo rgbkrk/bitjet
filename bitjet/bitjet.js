@@ -17,8 +17,6 @@ define(function(require) {
            
            // Create the viewing frame.
            this.$frame = $('<canvas/>')
-               .height(800)
-               .width(800)
                .css({
                    overflow: 'hidden',
                    border: '1px solid lightgray',
