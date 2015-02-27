@@ -70,7 +70,7 @@ def make_cmdclass(setupfile, path, enable=None):
 from glob import glob 
 setup(
     name='bitjet',
-    version='0.2',
+    version='0.2.1',
     description='Binary visualization using IPython widgets',
     author='Kyle Kelley',
     author_email='rgbkrk@gmail.com',
