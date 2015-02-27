@@ -99,7 +99,19 @@ define(function(require) {
 
        _redraw: function() {
           var data = this.model.get('_data');
-
+          
+          // Set the width/height of the canvas and the canvas's drawing space
+          var width = this.model.get('width');
+          var height = this.model.get('height');
+            
+          // Width/height of the Canvas on the DOM
+          this.$frame.width(width);
+          this.$frame.height(height);
+           
+          // Width/height of the canvas area
+          this.$frame[0].width = width;
+          this.$frame[0].height = height;
+          
           // Grab the canvas context
           var canvas = this.$frame[0];
           var context = canvas.getContext("2d");
