@@ -34,20 +34,19 @@ define(function(require) {
            this.model.on('change:height', this._redraw, this);
 
            this._redraw();
-       }
+       },
 
        _redraw: function() {
           var data = this.model.get('_data');
 
-          // Set the width/height of the canvas and the canvas's drawing space
           var width = this.model.get('width');
           var height = this.model.get('height');
 
-          // Width/height of the Canvas on the DOM
+          // Set width/height of the Canvas on the DOM
           this.$frame.width(width);
           this.$frame.height(height);
 
-          // Width/height of the canvas area
+          // Set width/height of the canvas drawing area
           this.$frame[0].width = width;
           this.$frame[0].height = height;
 
@@ -60,21 +59,19 @@ define(function(require) {
           context.clearRect(0, 0, canvas.width, canvas.height );
 
           var datawidth = this.model.get("datawidth");
-          var width = this.model.get("blockwidth");
-          var height = this.model.get("blockheight");
+          var blockwidth = this.model.get("blockwidth");
+          var blockheight = this.model.get("blockheight");
 
-          self._paintData(context, data, datawidth,
-                          width, height,
+          this._paintData(context, data, datawidth,
                           blockwidth, blockheight)
 
-       },
+       }
 
    });
 
    var BitView = BinaryView.extend({
 
      _paintData: function(canvasCtx, data, datawidth,
-                          width, height,
                           blockwidth, blockheight) {
 
           // Paint the canvas with our bit view
@@ -88,28 +85,27 @@ define(function(require) {
               var bit = (el >> 7-i) & 0x1; // shift down from the leftmost bit
 
               // Where does this bit fit in it?
-              var x = ((idx*charsize+i) % datawidth)*width;
-              var y = (Math.floor((idx*charsize+i)/datawidth))*height;
+              var x = ((idx*charsize+i) % datawidth)*blockwidth;
+              var y = (Math.floor((idx*charsize+i)/datawidth))*blockheight;
 
               if(bit) { //on
-                context.fillStyle = "rgb(255,255,255)";
-                context.fillRect(x,y,width,height);
+                canvasCtx.fillStyle = "rgb(255,255,255)";
+                canvasCtx.fillRect(x,y,blockwidth,blockheight);
               } else {
-                context.fillStyle = "rgb(0,0,0)";
-                context.fillRect(x,y,width,height);
+                canvasCtx.fillStyle = "rgb(0,0,0)";
+                canvasCtx.fillRect(x,y,blockwidth,blockheight);
               }
 
             }
 
           }
 
-       },
+       }
    });
 
    var ByteView = BinaryView.extend({
 
        _paintData: function(canvasCtx, data, datawidth,
-                            width, height,
                             blockwidth, blockheight) {
 
          // Paint the canvas with our byte view
@@ -118,11 +114,11 @@ define(function(require) {
            var el = data.charCodeAt(idx);
 
            // Where does this byte get painted?
-           var x = (idx % datawidth)*width;
-           var y = (Math.floor(idx/datawidth))*height;
+           var x = (idx % datawidth)*blockwidth;
+           var y = (Math.floor(idx/datawidth))*blockheight;
 
            canvasCtx.fillStyle = "rgb(" +  [el,el,el].join() + ")"
-           canvasCtx.fillRect(x,y,width,height);
+           canvasCtx.fillRect(x,y,blockwidth,blockheight);
 
          }
        }
