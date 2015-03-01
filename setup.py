@@ -10,7 +10,7 @@ except:
 
 setup(
     name='bitjet',
-    version='0.2.1',
+    version='0.2.2',
     description='Binary visualization using IPython widgets',
     author='Kyle Kelley',
     author_email='rgbkrk@gmail.com',
