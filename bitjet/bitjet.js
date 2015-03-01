@@ -33,6 +33,8 @@ define(function(require) {
            this.model.on('change:width', this._redraw, this);
            this.model.on('change:height', this._redraw, this);
 
+           this.model.on('change:bits_per_block', this._redraw, this);
+
            this._redraw();
        },
 
@@ -62,51 +64,53 @@ define(function(require) {
           var blockwidth = this.model.get("blockwidth");
           var blockheight = this.model.get("blockheight");
 
-          this._paintData(context, data, datawidth,
-                          blockwidth, blockheight)
-
-       }
-
-   });
-
-   var BitView = BinaryView.extend({
-
-     _paintData: function(canvasCtx, data, datawidth,
-                          blockwidth, blockheight) {
-
-          // Paint the canvas with our bit view
-          for(var idx=0; idx < data.length; idx++) {
-            // The decoded data is a string in JavaScript land, we'll strip uint8s off
-            var el = data.charCodeAt(idx);
-            var charsize = 8;
-
-            for (i=0; i<charsize; i++){
-              //Mask off that first bit
-              var bit = (el >> 7-i) & 0x1; // shift down from the leftmost bit
-
-              // Where does this bit fit in it?
-              var x = ((idx*charsize+i) % datawidth)*blockwidth;
-              var y = (Math.floor((idx*charsize+i)/datawidth))*blockheight;
-
-              if(bit) { //on
-                canvasCtx.fillStyle = "rgb(255,255,255)";
-                canvasCtx.fillRect(x,y,blockwidth,blockheight);
-              } else {
-                canvasCtx.fillStyle = "rgb(0,0,0)";
-                canvasCtx.fillRect(x,y,blockwidth,blockheight);
-              }
-
-            }
-
+          var bitsPerBlock = this.model.get("bits_per_block");
+          if (bitsPerBlock === 1) {
+            paintBits(context, data, datawidth, blockwidth, blockheight);
+          } else if (bitsPerBlock === 8) {
+            paintBytes(context, data, datawidth, blockwidth, blockheight);
           }
 
        }
+
    });
 
-   var ByteView = BinaryView.extend({
+   var BitView = BinaryView.extend({});
+   var ByteView = BinaryView.extend({});
 
-       _paintData: function(canvasCtx, data, datawidth,
-                            blockwidth, blockheight) {
+   function paintBits(canvasCtx, data, datawidth,
+                      blockwidth, blockheight) {
+
+    // Paint the canvas with our bit view
+    for(var idx=0; idx < data.length; idx++) {
+      // The decoded data is a string in JavaScript land, we'll strip uint8s off
+      var el = data.charCodeAt(idx);
+      var charsize = 8;
+
+      for (i=0; i<charsize; i++){
+        //Mask off that first bit
+        var bit = (el >> 7-i) & 0x1; // shift down from the leftmost bit
+
+        // Where does this bit fit in it?
+        var x = ((idx*charsize+i) % datawidth)*blockwidth;
+        var y = (Math.floor((idx*charsize+i)/datawidth))*blockheight;
+
+        if(bit) { //on
+          canvasCtx.fillStyle = "rgb(255,255,255)";
+          canvasCtx.fillRect(x,y,blockwidth,blockheight);
+        } else {
+          canvasCtx.fillStyle = "rgb(0,0,0)";
+          canvasCtx.fillRect(x,y,blockwidth,blockheight);
+        }
+
+      }
+
+    }
+
+   }
+
+   function paintBytes(canvasCtx, data, datawidth,
+                       blockwidth, blockheight) {
 
          // Paint the canvas with our byte view
          for(var idx=0; idx < data.length; idx++) {
@@ -117,12 +121,11 @@ define(function(require) {
            var x = (idx % datawidth)*blockwidth;
            var y = (Math.floor(idx/datawidth))*blockheight;
 
-           canvasCtx.fillStyle = "rgb(" +  [el,el,el].join() + ")"
+           canvasCtx.fillStyle = "rgb(" +  [el,el,el].join() + ")";
            canvasCtx.fillRect(x,y,blockwidth,blockheight);
 
          }
-       }
-   });
+   }
 
    return {
        BitView: BitView,
