@@ -1,0 +1,12 @@
+language: python
+python:
+  - 3.4
+sudo: false
+before_install: 
+  - wget https://7de4dfdec62155b49b44-d726a73613a1989d29b147f20996e7c1.ssl.cf2.rackcdn.com/mathjax.zip
+  - git clone --quiet --depth 1 https://github.com/minrk/travis-wheels travis-wheels
+install:
+  - pip install tox ipython[notebook]
+  - pip install -f travis-wheels/wheelhouse
+script:
+  - tox
