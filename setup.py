@@ -3,10 +3,10 @@
 from setuptools import setup
 
 try:
-    from ipythonpip import cmdclass
+    from jupyterpip import cmdclass
 except:
     import pip, importlib
-    pip.main(['install', 'ipython-pip']); cmdclass = importlib.import_module('ipythonpip').cmdclass
+    pip.main(['install', 'jupyter-pip']); cmdclass = importlib.import_module('jupyterpip').cmdclass
 
 setup(
     name='bitjet',
@@ -17,7 +17,7 @@ setup(
     license='New BSD License',
     url='https://github.com/rgbkrk/bitjet',
     keywords='data visualization interactive interaction python ipython widgets widget',
-    install_requires=['ipython', 'ipython-pip'],
+    install_requires=['ipython', 'jupyter-pip'],
     classifiers=['Development Status :: 4 - Beta',
                  'Programming Language :: Python',
                  'License :: OSI Approved :: MIT License'],
