@@ -6,10 +6,10 @@ Binary visualization using [IPython widgets](https://www.youtube.com/watch?v=VaV
 
 ## Installation
 
-This uses IPython 3, which only has a release candidate out. To install a new copy of IPython, upgrading over your old version run:
+This uses IPython 3. To install a new copy of IPython, upgrading over your old version run:
 
 ```console
-pip install --pre ipython[all]
+pip install --upgrade ipython[all]
 ```
 
 ### Now install bitjet!
