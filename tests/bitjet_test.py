@@ -7,11 +7,19 @@ from operator import itemgetter, attrgetter
 
 import bitjet
 
-class BitJetTest(unittest.TestCase):
-    def setUp(self):
+from IPython.kernel.comm import Comm
+from IPython.html.widgets import interact, interactive, Widget, interaction
+
+class DummyComm(Comm):
+    comm_id = 'a-b-c-d'
+
+    def open(self, *args, **kwargs):
         pass
 
-    def test_init(self):
+    def send(self, *args, **kwargs):
+        pass
+
+    def close(self, *args, **kwargs):
         pass
 
 if __name__ == '__main__':
