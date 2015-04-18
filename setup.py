@@ -24,4 +24,5 @@ setup(
     packages=['bitjet'],
     include_package_data=True,
     cmdclass=cmdclass('bitjet'),
+    test_suite='tests'
 )
