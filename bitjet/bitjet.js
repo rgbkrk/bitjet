@@ -90,10 +90,10 @@ define(function(require) {
         var x = ((idx*charsize+i) % datawidth)*blockwidth;
         var y = (Math.floor((idx*charsize+i)/datawidth))*blockheight;
 
-        if(bit) { //on
+        if(bit) { // on
           canvasCtx.fillStyle = "rgb(255,255,255)";
           canvasCtx.fillRect(x,y,blockwidth,blockheight);
-        } else {
+        } else { // off
           canvasCtx.fillStyle = "rgb(0,0,0)";
           canvasCtx.fillRect(x,y,blockwidth,blockheight);
         }
