@@ -1,10 +1,7 @@
 define(function(require) {
    var widget = require("widgets/js/widget");
 
-   var BinaryModel = widget.WidgetModel.extend({
-     initialize: function() {
-     },
-   });
+   var BinaryModel = widget.WidgetModel.extend({});
 
    var BinaryView = widget.DOMWidgetView.extend({
        render: function() {
