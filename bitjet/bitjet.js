@@ -21,6 +21,7 @@ define(function(require) {
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
 
+           // Used for 1 bit per block (binary view) or 8 bit per block (hex view)
            this.model.on('change:bits_per_block', this._redraw, this);
 
            this._redraw();
