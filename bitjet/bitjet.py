@@ -5,19 +5,6 @@ from traitlets import Int, Unicode, List, Instance, Bytes, Enum
 
 import base64
 
-try:
-    from numpy import ndarray
-except:
-    # TODO: wat
-    ndarray = None
-
-
-def b64encode_json(a):
-    '''
-    Returns a dict containing the base64 encoded a
-    '''
-    return {'b64data': base64.b64encode(a)}
-
 class BinaryView(DOMWidget):
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _view_name = Unicode('BinaryView', sync=True)
@@ -26,13 +13,7 @@ class BinaryView(DOMWidget):
 
     datawidth = Int(2, sync=True)
 
-    if ndarray:
-        data = (
-                Bytes(sync=True) |
-                Instance(ndarray, sync=True)
-        )
-    else:
-        data = Bytes(sync=True)
+    data = Bytes(sync=True)
 
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)

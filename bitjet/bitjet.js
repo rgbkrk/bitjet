@@ -3,13 +3,7 @@ define(function(require) {
 
    var BinaryModel = widget.WidgetModel.extend({
      initialize: function() {
-       this.on('change:data', this._decode, this);
      },
-
-     _decode: function() {
-       var data = this.get("data");
-       this.set('_data', data);
-     }
    });
 
    var BinaryView = widget.DOMWidgetView.extend({
@@ -25,7 +19,7 @@ define(function(require) {
                    background: "rgba(87,87,87,0.2)"
                }).appendTo(this.$el);
 
-           this.model.on('change:_data', this._redraw, this);
+           this.model.on('change:data', this._redraw, this);
            this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
@@ -39,7 +33,7 @@ define(function(require) {
        },
 
        _redraw: function() {
-          var data = this.model.get('_data');
+          var data = this.model.get('data');
 
           var width = this.model.get('width');
           var height = this.model.get('height');
@@ -80,6 +74,7 @@ define(function(require) {
 
    function paintBits(canvasCtx, data, datawidth,
                       blockwidth, blockheight) {
+                      window.y = data;
 
     // Paint the canvas with our bit view
     for(var idx=0; idx < data.length; idx++) {
