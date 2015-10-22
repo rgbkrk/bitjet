@@ -24,9 +24,6 @@ define(function(require) {
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
 
-           this.model.on('change:width', this._redraw, this);
-           this.model.on('change:height', this._redraw, this);
-
            this.model.on('change:bits_per_block', this._redraw, this);
 
            this._redraw();
@@ -34,9 +31,15 @@ define(function(require) {
 
        _redraw: function() {
           var data = this.model.get('data');
+          var datawidth = this.model.get("datawidth");
+          var blockwidth = this.model.get("blockwidth");
+          var blockheight = this.model.get("blockheight");
+          var bitsPerBlock = this.model.get("bits_per_block");
 
-          var width = this.model.get('width');
-          var height = this.model.get('height');
+          var datacol = Math.ceil(data.length/datawidth);
+
+          var width = datawidth*bitsPerBlock*blockwidth;
+          var height = datacol*bitsPerBlock*blockheight*8;
 
           // Set width/height of the Canvas on the DOM
           this.$frame.width(width);
@@ -54,11 +57,6 @@ define(function(require) {
           context.fillStyle = "rgb(87,87,87,0.2)";
           context.clearRect(0, 0, canvas.width, canvas.height );
 
-          var datawidth = this.model.get("datawidth");
-          var blockwidth = this.model.get("blockwidth");
-          var blockheight = this.model.get("blockheight");
-
-          var bitsPerBlock = this.model.get("bits_per_block");
           if (bitsPerBlock === 1) {
             paintBits(context, data, datawidth, blockwidth, blockheight);
           } else if (bitsPerBlock === 8) {
@@ -81,6 +79,7 @@ define(function(require) {
       // The decoded data is a string in JavaScript land, we'll strip uint8s off
       var el = data.charCodeAt(idx);
       var charsize = 8;
+      console.log(el);
 
       for (i=0; i<charsize; i++){
         //Mask off that first bit

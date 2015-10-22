@@ -18,9 +18,6 @@ class BinaryView(DOMWidget):
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)
 
-    height = Int(200, sync=True)
-    width = Int(800, sync=True)
-
     bits_per_block = Enum([1,8], default_value=1, sync=True)
 
 class BitWidget(BinaryView):
