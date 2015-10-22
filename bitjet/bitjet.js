@@ -7,8 +7,8 @@ define(function(require) {
      },
 
      _decode: function() {
-       var msg = this.get("data");
-       this.set('_data', atob(msg['b64data']));
+       var data = this.get("data");
+       this.set('_data', data);
      }
    });
 

@@ -1,7 +1,7 @@
 import mmap
 
-from IPython.html.widgets import DOMWidget
-from IPython.utils.traitlets import Int, Unicode, List, Instance, Bytes, Enum
+from ipywidgets import DOMWidget
+from traitlets import Int, Unicode, List, Instance, Bytes, Enum
 
 import base64
 
@@ -28,11 +28,11 @@ class BinaryView(DOMWidget):
 
     if ndarray:
         data = (
-                Bytes(sync=True, to_json=b64encode_json) |
-                Instance(ndarray, sync=True, to_json=b64encode_json)
+                Bytes(sync=True) |
+                Instance(ndarray, sync=True)
         )
     else:
-        data = Bytes(sync=True, to_json=b64encode_json)
+        data = Bytes(sync=True)
 
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)
