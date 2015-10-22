@@ -72,14 +72,17 @@ define(function(require) {
 
    function paintBits(canvasCtx, data, datawidth,
                       blockwidth, blockheight) {
-                      window.y = data;
 
     // Paint the canvas with our bit view
     for(var idx=0; idx < data.length; idx++) {
       // The decoded data is a string in JavaScript land, we'll strip uint8s off
       var el = data.charCodeAt(idx);
       var charsize = 8;
-      console.log(el);
+      // TODO: For some reason, values >= 128 are all coming out at 65533 (2^16 - 3)
+      //       which when masked, is 253. Not sure if traitlets is somehow masking it
+      //       or what...
+      // console.log(el);
+      // console.log(el & 0xff);
 
       for (i=0; i<charsize; i++){
         //Mask off that first bit
