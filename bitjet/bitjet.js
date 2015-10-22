@@ -79,8 +79,8 @@ define(function(require) {
       // TODO: For some reason, values >= 128 are all coming out at 65533 (2^16 - 3)
       //       which when masked, is 253. Not sure if traitlets is somehow masking it
       //       or what...
-      // console.log(el);
-      // console.log(el & 0xff);
+      // console.log(el); // If the actual data[idx] >= 128, el == 65533
+      // console.log(el & 0xff); // which would then make the effective value 253
 
       for (i=0; i<charsize; i++){
         //Mask off that first bit
