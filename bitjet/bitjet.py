@@ -11,7 +11,7 @@ class BinaryView(DOMWidget):
     _model_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _model_name = Unicode('BinaryModel', sync=True)
 
-    datawidth = Int(2, sync=True)
+    datawidth = Int(8, sync=True)
 
     data = Bytes(sync=True)
 
