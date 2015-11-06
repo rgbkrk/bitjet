@@ -33,8 +33,11 @@ define(function(require) {
           var blockwidth = this.model.get("blockwidth");
           var blockheight = this.model.get("blockheight");
           var bitsPerBlock = this.model.get("bits_per_block");
+          var datacol = 0;
+          if (data !== null) {
+            datacol = Math.ceil(data.byteLength/datawidth);
+          }
 
-          var datacol = Math.ceil(data.length/datawidth);
 
           var width = datawidth*bitsPerBlock*blockwidth;
           var height = datacol*bitsPerBlock*blockheight*8;
@@ -54,7 +57,11 @@ define(function(require) {
           // Color the background gray
           context.fillStyle = "rgb(87,87,87,0.2)";
           context.clearRect(0, 0, canvas.width, canvas.height );
-
+          
+          if (data === null) {
+            // no data
+            return;
+          }
           if (bitsPerBlock === 1) {
             paintBits(context, data, datawidth, blockwidth, blockheight);
           } else if (bitsPerBlock === 8) {
@@ -72,15 +79,10 @@ define(function(require) {
                       blockwidth, blockheight) {
 
     // Paint the canvas with our bit view
-    for(var idx=0; idx < data.length; idx++) {
-      // The decoded data is a string in JavaScript land, we'll strip uint8s off
-      var el = data.charCodeAt(idx);
+    for(var idx=0; idx < data.byteLength; idx++) {
+      // The decoded data is a DataView in JavaScript land, we'll strip uint8s off
+      var el = data.getUint8(idx);
       var charsize = 8;
-      // TODO: For some reason, values >= 128 are all coming out at 65533 (2^16 - 3)
-      //       which when masked, is 253. Not sure if traitlets is somehow masking it
-      //       or what...
-      // console.log(el); // If the actual data[idx] >= 128, el == 65533
-      // console.log(el & 0xff); // which would then make the effective value 253
 
       for (i=0; i<charsize; i++){
         //Mask off that first bit
@@ -108,9 +110,9 @@ define(function(require) {
                        blockwidth, blockheight) {
 
          // Paint the canvas with our byte view
-         for(var idx=0; idx < data.length; idx++) {
-           // The decoded data is a string in JavaScript land, we'll strip uint8s off
-           var el = data.charCodeAt(idx);
+         for(var idx=0; idx < data.byteLength; idx++) {
+           // The decoded data is a DataView in JavaScript land, we'll strip uint8s off
+           var el = data.getUint8(idx);
 
            // Where does this byte get painted?
            var x = (idx % datawidth)*blockwidth;
