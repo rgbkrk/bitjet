@@ -5,8 +5,10 @@ from setuptools import setup
 try:
     from jupyterpip import cmdclass
 except:
-    import pip, importlib
-    pip.main(['install', 'jupyter-pip']); cmdclass = importlib.import_module('jupyterpip').cmdclass
+    import pip
+    import importlib
+    pip.main(['install', 'jupyter-pip'])
+    cmdclass = importlib.import_module('jupyterpip').cmdclass
 
 setup(
     name='bitjet',
@@ -17,7 +19,7 @@ setup(
     license='New BSD License',
     url='https://github.com/rgbkrk/bitjet',
     keywords='data visualization interactive interaction python ipython widgets widget',
-    install_requires=['ipython', 'jupyter-pip'],
+    install_requires=['notebook', 'ipywidgets', 'jupyter-pip'],
     classifiers=['Development Status :: 4 - Beta',
                  'Programming Language :: Python',
                  'License :: OSI Approved :: MIT License'],

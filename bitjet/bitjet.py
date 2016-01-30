@@ -1,22 +1,16 @@
 import mmap
 
-from IPython.html.widgets import DOMWidget
-from IPython.utils.traitlets import Int, Unicode, List, Instance, Bytes, Enum
+from ipywidgets import DOMWidget
+from traitlets import Int, Unicode, List, Instance, Bytes, Enum
 
 import base64
 
-try:
-    from numpy import ndarray
-except:
-    # TODO: wat
-    ndarray = None
-
-
-def b64encode_json(a):
-    '''
-    Returns a dict containing the base64 encoded a
-    '''
-    return {'b64data': base64.b64encode(a)}
+def bytes_to_json(buf, widget):
+    """Wrap bytes objects in memoryviews to trigger binary messages."""
+    if not buf:
+        # temporary workaround since open doesn't support binary serialization
+        return None
+    return memoryview(buf)
 
 class BinaryView(DOMWidget):
     _view_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
@@ -24,23 +18,24 @@ class BinaryView(DOMWidget):
     _model_module = Unicode('nbextensions/bitjet/bitjet', sync=True)
     _model_name = Unicode('BinaryModel', sync=True)
 
-    datawidth = Int(2, sync=True)
+    datawidth = Int(8, sync=True)
 
-    if ndarray:
-        data = (
-                Bytes(sync=True, to_json=b64encode_json) |
-                Instance(ndarray, sync=True, to_json=b64encode_json)
-        )
-    else:
-        data = Bytes(sync=True, to_json=b64encode_json)
+    data = Bytes(sync=True, to_json=bytes_to_json)
 
     blockwidth = Int(4, sync=True)
     blockheight = Int(4, sync=True)
 
-    height = Int(200, sync=True)
-    width = Int(800, sync=True)
-
     bits_per_block = Enum([1,8], default_value=1, sync=True)
+    
+    def open(self):
+        # workaround ipywidgets bug causing failure to send initial state if it contains binary keys
+        _save_data = None
+        if self.data:
+            _save_data = self.data
+            self.data = b''
+        super(BinaryView, self).open()
+        if _save_data:
+            self.data = _save_data
 
 class BitWidget(BinaryView):
     '''

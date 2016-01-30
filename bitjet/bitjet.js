@@ -1,16 +1,7 @@
 define(function(require) {
    var widget = require("widgets/js/widget");
 
-   var BinaryModel = widget.WidgetModel.extend({
-     initialize: function() {
-       this.on('change:data', this._decode, this);
-     },
-
-     _decode: function() {
-       var msg = this.get("data");
-       this.set('_data', atob(msg['b64data']));
-     }
-   });
+   var BinaryModel = widget.WidgetModel.extend({});
 
    var BinaryView = widget.DOMWidgetView.extend({
        render: function() {
@@ -25,24 +16,31 @@ define(function(require) {
                    background: "rgba(87,87,87,0.2)"
                }).appendTo(this.$el);
 
-           this.model.on('change:_data', this._redraw, this);
+           this.model.on('change:data', this._redraw, this);
            this.model.on('change:datawidth', this._redraw, this);
            this.model.on('change:blockwidth', this._redraw, this);
            this.model.on('change:blockheight', this._redraw, this);
 
-           this.model.on('change:width', this._redraw, this);
-           this.model.on('change:height', this._redraw, this);
-
+           // Used for 1 bit per block (binary view) or 8 bit per block (hex view)
            this.model.on('change:bits_per_block', this._redraw, this);
 
            this._redraw();
        },
 
        _redraw: function() {
-          var data = this.model.get('_data');
+          var data = this.model.get('data');
+          var datawidth = this.model.get("datawidth");
+          var blockwidth = this.model.get("blockwidth");
+          var blockheight = this.model.get("blockheight");
+          var bitsPerBlock = this.model.get("bits_per_block");
+          var datacol = 0;
+          if (data !== null) {
+            datacol = Math.ceil(data.byteLength/datawidth);
+          }
 
-          var width = this.model.get('width');
-          var height = this.model.get('height');
+
+          var width = datawidth*bitsPerBlock*blockwidth;
+          var height = datacol*bitsPerBlock*blockheight*8;
 
           // Set width/height of the Canvas on the DOM
           this.$frame.width(width);
@@ -59,12 +57,11 @@ define(function(require) {
           // Color the background gray
           context.fillStyle = "rgb(87,87,87,0.2)";
           context.clearRect(0, 0, canvas.width, canvas.height );
-
-          var datawidth = this.model.get("datawidth");
-          var blockwidth = this.model.get("blockwidth");
-          var blockheight = this.model.get("blockheight");
-
-          var bitsPerBlock = this.model.get("bits_per_block");
+          
+          if (data === null) {
+            // no data
+            return;
+          }
           if (bitsPerBlock === 1) {
             paintBits(context, data, datawidth, blockwidth, blockheight);
           } else if (bitsPerBlock === 8) {
@@ -82,9 +79,9 @@ define(function(require) {
                       blockwidth, blockheight) {
 
     // Paint the canvas with our bit view
-    for(var idx=0; idx < data.length; idx++) {
-      // The decoded data is a string in JavaScript land, we'll strip uint8s off
-      var el = data.charCodeAt(idx);
+    for(var idx=0; idx < data.byteLength; idx++) {
+      // The decoded data is a DataView in JavaScript land, we'll strip uint8s off
+      var el = data.getUint8(idx);
       var charsize = 8;
 
       for (i=0; i<charsize; i++){
@@ -95,10 +92,10 @@ define(function(require) {
         var x = ((idx*charsize+i) % datawidth)*blockwidth;
         var y = (Math.floor((idx*charsize+i)/datawidth))*blockheight;
 
-        if(bit) { //on
+        if(bit) { // on
           canvasCtx.fillStyle = "rgb(255,255,255)";
           canvasCtx.fillRect(x,y,blockwidth,blockheight);
-        } else {
+        } else { // off
           canvasCtx.fillStyle = "rgb(0,0,0)";
           canvasCtx.fillRect(x,y,blockwidth,blockheight);
         }
@@ -113,9 +110,9 @@ define(function(require) {
                        blockwidth, blockheight) {
 
          // Paint the canvas with our byte view
-         for(var idx=0; idx < data.length; idx++) {
-           // The decoded data is a string in JavaScript land, we'll strip uint8s off
-           var el = data.charCodeAt(idx);
+         for(var idx=0; idx < data.byteLength; idx++) {
+           // The decoded data is a DataView in JavaScript land, we'll strip uint8s off
+           var el = data.getUint8(idx);
 
            // Where does this byte get painted?
            var x = (idx % datawidth)*blockwidth;
