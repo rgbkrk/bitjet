@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "Binary data visualization as a Jupyter anywidget"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
+license = { text = "BSD-3-Clause" }
 authors = [{ name = "Kyle Kelley", email = "rgbkrk@gmail.com" }]
 keywords = ["jupyter", "anywidget", "binary", "visualization", "widget"]
 classifiers = [
@@ -16,7 +16,7 @@ classifiers = [
     "Framework :: Jupyter :: JupyterLab",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: BSD License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Multimedia :: Graphics :: Viewers",

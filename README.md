@@ -77,4 +77,4 @@ install.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+BSD-3-Clause. See [LICENSE](LICENSE).
