@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bitjet"
+version = "1.0.0"
+description = "Binary data visualization as a Jupyter anywidget"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Kyle Kelley", email = "rgbkrk@gmail.com" }]
+keywords = ["jupyter", "anywidget", "binary", "visualization", "widget"]
+classifiers = [
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Multimedia :: Graphics :: Viewers",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "anywidget>=0.9",
+    "traitlets>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/rgbkrk/bitjet"
+Issues = "https://github.com/rgbkrk/bitjet/issues"
+Repository = "https://github.com/rgbkrk/bitjet"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "ruff>=0.5",
+    "ipywidgets>=8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bitjet"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/bitjet", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
